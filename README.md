@@ -7,5 +7,5 @@ Yleisiä linkkejä:
 
 ## Työn aihe
 
-Apuohjelma Axis and Allies lautapeliin. Pelaajien rahan käyön seuraaja (pankki) ja pelitilanteen tallennus.
+Apuohjelma Axis and Allies lautapeliin. Pääominaisuutena pelitilanteen tallennus (koska yksi peli voi kestää 15 tuntia) ja pelaajille rahankäytön seuranta.
 
