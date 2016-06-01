@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>AA-apu</h1>
+
+  <p>
+    <a href="#" class="btn btn-success">Aloita uusi peli</a>
+  </p>
+  <h2>Aikaisemmat pelit</h2>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Pelaajat</th>
+        <th>Aloitus pvm</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Listataan pelit tähän -->
+      <tr>
+        <td>Pasi ja Matti</td>
+        <td>11.11.2001</td>
+        <td><label class="label label-danger">kesken</label></td>
+        <th><a class="btn btn-default btn-sm" href="#">Jatka</a></th>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+{% endblock %}

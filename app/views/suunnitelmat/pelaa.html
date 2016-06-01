@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Pasi ja Matti, aloitettu 11.11.2001</h1>
+<button type="button" class="btn btn-primary">Tallenna Peli</button>
+<h3>Pankki</h3>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Maa</th>
+            <th>Rahat</th>
+            <th>Ostot</th>
+            <th>Tulot</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>USSR</td>
+            <td>50</td>
+            <td>25  <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></td>
+            <td>31  <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></td>
+            <th><a class="btn btn-default btn-sm">päivitä</a></th>
+        </tr>
+        <tr>
+            <td>Saksa</td>
+            <td>24</td>
+            <td>0  <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></td>
+            <td>11  <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></td>
+            <th><a class="btn btn-default btn-sm">päivitä</a></th>     
+        </tr>
+        <tr>
+            <td>Englanti</td>
+            <td>24</td>
+            <td>0  <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></td>
+            <td>11  <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></td>
+            <th><a class="btn btn-default btn-sm">päivitä</a></th>     
+        </tr>
+        <tr>
+            <td>Japani</td>
+            <td>24</td>
+            <td>0  <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></td>
+            <td>11  <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></td>
+            <th><a class="btn btn-default btn-sm">päivitä</a></th>     
+        </tr>
+        <tr>
+            <td>USA</td>
+            <td>24</td>
+            <td>0  <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></td>
+            <td>11 <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></td>
+            <th><a class="btn btn-default btn-sm">päivitä</a></th>     
+        </tr>
+    </tbody>
+</table>
+
+<h3>Pelilauta</h3>
+<h4>Maa</h4>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Ruutu nr</th>
+            <th>Kenen hallussa</th>
+            <th>Sotilaita</th>
+            <th>Tykkejä</th>
+            <th>Tankkeja</th>
+            <th>Hävittäjiä</th>
+            <th>Pommikoneita</th>
+            <th>Tehdas</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <th>1</th>
+            <th><input type="text" class="form-control" value="USA"></th>
+            <th>5 <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></th>
+            <th>2 <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></th>
+            <th>3 <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></th>
+            <th>0 <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></th>
+            <th>0 <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></th>
+            <th>1 <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></th>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Meri</h4>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Ruutu nr</th>
+            <th>Kenen hallussa</th>
+            <th>Destroyereita</th>
+            <th>Sukellusveneitä</th>
+            <th>Transporttereita</th>
+            <th>Carriereita</th>
+            <th>Battleshippejä</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <th>1</th>
+            <th><input type="text" class="form-control" value="USA"></th>
+            <th>5 <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></th>
+            <th>2 <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></th>
+            <th>3 <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></th>
+            <th>0 <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></th>
+            <th>0 <a class="btn btn-default btn-sm">+</a><a class="btn btn-default btn-sm">-</a></th>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
