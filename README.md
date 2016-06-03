@@ -9,7 +9,7 @@ Yleisiä linkkejä:
 
 Apuohjelma Axis and Allies lautapeliin. Pääominaisuutena pelitilanteen tallennus (koska yksi peli voi kestää 15 tuntia) ja pelaajille rahankäytön seuranta eli pankkitoiminnot.
 
-Linkkejä työnalla oleviin juttuihin:
+## Linkkejä työnalla oleviin juttuihin:
 
 * [Linkki etusivulle](http://sulevi.users.cs.helsinki.fi/AA/)
 * [Linkki listaukseen](http://sulevi.users.cs.helsinki.fi/AA/listaus)
