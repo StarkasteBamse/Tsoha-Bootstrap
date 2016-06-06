@@ -76,7 +76,7 @@ class Peli extends BaseModel {
             $i++;
         }
     }
-    
+    //luo uuden pelin tietokantaa ja tarvittavat liitostaulut Peli <-> Kayttaja
     public function save($pelaajat) {
         $query = DB::connection()->prepare('INSERT INTO Peli (aloitettu) VALUES '
                 . '(NOW()) RETURNING id');
