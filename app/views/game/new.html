@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Axis and Allies helpper</h1>
+<h2>New Game</h2>
+<p>Select players and press the button</p>
+<form method="post" action="{{base_path}}/game/new">
+
+    {% for kayttaja in kayttajat %}
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="{{kayttaja.id}}" value="{{kayttaja.id}}">
+            {{kayttaja.nimi}}
+        </label>
+    </div>
+    {% endfor %}
+
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Start Game</button>
+    </div>
+</form>
+{% endblock %}

@@ -1,9 +1,20 @@
 <?php
 
-// $routes->get('/etusivu/1', function() {
-//     HelloWorldController::listaus();
-// });
+$routes->post('/game/new', function() {
+    GameController::uusipeli();
+});
 
+$routes->get('/list', function() {
+    ListController::index();
+});
+
+$routes->get('/game/new', function() {
+    GameController::uusi();
+});
+
+$routes->get('/game/:id', function($id) {
+    GameController::peli($id);
+});
 
 $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();

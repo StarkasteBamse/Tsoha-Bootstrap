@@ -1,8 +1,8 @@
 Create Table Kayttaja(
 id SERIAL PRIMARY KEY,
-name varchar(50) NOT NULL,
-password varchar(50) NOT NULL,
-admin boolean DEFAULT FALSE
+nimi varchar(50) NOT NULL,
+salasana varchar(50) NOT NULL,
+admini boolean DEFAULT FALSE
 );
 
 Create Table Peli(
@@ -27,24 +27,29 @@ rahat INTEGER NOT NULL
 Create Table Maaruutu(
 id SERIAL PRIMARY KEY,
 peli_id INTEGER REFERENCES Peli(id),
-numero INTEGER NOT NULL,
+alue varchar(50) NOT NULL UNIQUE,
 kenen varchar(50) NOT NULL,
-sotilaita INTEGER NOT NULL,
-tykkeja INTEGER NOT NULL,
-tankkeja INTEGER NOT NULL,
-havittajia INTEGER NOT NULL,
-pommikoneita INTEGER NOT NULL,
-tehdas boolean
+sotilaita INTEGER NOT NULL DEFAULT 0,
+tykkeja INTEGER NOT NULL DEFAULT 0,
+tankkeja INTEGER NOT NULL DEFAULT 0,
+havittajia INTEGER NOT NULL DEFAULT 0,
+pommikoneita INTEGER NOT NULL DEFAULT 0,
+tehdas INTEGER NOT NULL CHECK(tehdas = 0 OR tehdas = 1) DEFAULT 0
 );
 
 Create Table Vesiruutu(
 id SERIAL PRIMARY KEY,
 peli_id INTEGER REFERENCES Peli(id),
-numero INTEGER NOT NULL,
+numero INTEGER NOT NULL UNIQUE,
 kenen varchar(50) NOT NULL,
-destryoereita INTEGER NOT NULL,
-sukellusveneita INTEGER NOT NULL,
-transporttereita INTEGER NOT NULL,
-carriereita INTEGER NOT NULL,
-battleshippeja INTEGER NOT NULL
+destryoereita INTEGER NOT NULL DEFAULT 0,
+sukellusveneita INTEGER NOT NULL DEFAULT 0,
+transporttereita INTEGER NOT NULL DEFAULT 0,
+carriereita INTEGER NOT NULL DEFAULT 0,
+battleshippeja INTEGER NOT NULL DEFAULT 0,
+sotilaita INTEGER NOT NULL DEFAULT 0,
+tykkeja INTEGER NOT NULL DEFAULT 0,
+tankkeja INTEGER NOT NULL DEFAULT 0,
+havittajia INTEGER NOT NULL DEFAULT 0,
+pommikoneita INTEGER NOT NULL DEFAULT 0
 );
