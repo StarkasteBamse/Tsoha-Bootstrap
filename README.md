@@ -11,15 +11,15 @@ Apuohjelma Axis and Allies lautapeliin. Pääominaisuutena pelitilanteen tallenn
 
 ## Linkkejä toimiviin sivuihin
 
+* [Linkki etusivulle](http://sulevi.users.cs.helsinki.fi/AA/)
+Uuden käyttäjän luominen vielä vaiheessa
 * [Linkki listaukseen](http://sulevi.users.cs.helsinki.fi/AA/list)
-Näkee kaikki pelit mitkä on tietokannassa, muuttuu käyttäjä kohtaiseksi listaukseksi, kunhan kirjautuminen toimii
+Mahdollisuus päivittää pelin status (minimi 5 merkkiä pitkä) sekä poistaa peli
+* [Linkki kirjautumiseen](http://sulevi.users.cs.helsinki.fi/AA/login)
+Esimerkki tileinä on matti:matti123 ja teppo:teppo123 (käyttäjätunnus:salasana)
 * [Linkki uuden pelin aloitukseen](http://sulevi.users.cs.helsinki.fi/AA/game/new)
 Valitse käyttäjät tietokannasta jotka otat pelaamaan, ja tämän jälkeen tallentaa uuden pelin tietokantaa ja tarvittavat liitostaulut
 
 ## Linkkejä suunnitelmiin:
-
-* [Linkki etusivulle](http://sulevi.users.cs.helsinki.fi/AA/)
-* [Linkki listaukseen](http://sulevi.users.cs.helsinki.fi/AA/listaus)
-* [Linkki peliin/muokkaukseen](http://sulevi.users.cs.helsinki.fi/AA/listaus/1)
-* [Linkki kirjautumiseen](http://sulevi.users.cs.helsinki.fi/AA/login)
+*[Linkki peli näkymään](http://sulevi.users.cs.helsinki.fi/AA/game/1)
 
