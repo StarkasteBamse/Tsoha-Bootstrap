@@ -19,6 +19,29 @@ class Peli extends BaseModel {
         return self::arraymaker($rows);
     }
 
+    public static function all_user($user) {
+        $query = DB::connection()->prepare('SELECT nimi as pelaaja, peli.id as id,'
+                . ' aloitettu, status FROM Peli LEFT JOIN KaPe ON Peli.id = KaPe.peli_id'
+                . ' LEFT JOIN Kayttaja ON KaPe.kayttaja_id = Kayttaja.id WHERE Kayttaja.id = :user');
+        $query->execute(array('user' => $user->id));
+        $rows = $query->fetchAll();
+        
+        if (!$rows) {
+            return null;
+        }
+        $pelit = array();
+        foreach ($rows as $row) {
+            $pelit[$row['id']] = new Peli(array(
+                'id' => $row['id'],
+                'aloitettu' => $row['aloitettu'],
+                'pelaajat' => self::players($row['id']),
+                'status' => $row['status']
+            ));
+        }
+
+        return $pelit;
+    }
+
     //hakee yhden pelin
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT nimi as pelaaja, peli.id as id,'
@@ -96,11 +119,12 @@ class Peli extends BaseModel {
         }
         return $id;
     }
+
     //validoi statuksen
     public function validate_status($status) {
         $errors = array();
         if ($status == '' || $status == null) {
-            $errors[] = 'Status can\'t be empty' ;
+            $errors[] = 'Status can\'t be empty';
         }
         if (strlen($status) < 5) {
             $errors[] = 'Status has to be longer than 5 letters';

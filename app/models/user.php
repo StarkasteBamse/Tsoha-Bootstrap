@@ -16,11 +16,27 @@ class User extends BaseModel {
             return new User(array(
                 'id' => $row['id'],
                 'name' => $row['nimi'],
+                'password' => $row['salasana'],
                 'admin' => $row['admini']
             ));
         } else {
             return null;
         }
     }
-
+    
+    public static function find($id) {
+        $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE id = :id');
+        $query->execute(array('id' => $id));
+        $row = $query->fetch();
+        if ($row) {
+            return new User(array(
+                'id' => $row['id'],
+                'name' => $row['nimi'],
+                'password' => $row['salasana'],
+                'admin' => $row['admini']
+            ));
+        } else {
+            return null;
+        }
+    }
 }

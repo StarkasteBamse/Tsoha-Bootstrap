@@ -20,7 +20,7 @@ class GameController extends BaseController {
     }
 
     public static function index() {
-        $pelit = Peli::all();
+        $pelit = Peli::all_user(self::get_user_logged_in());
         View::make('list/index.html', array('pelit' => $pelit));
     }
     
