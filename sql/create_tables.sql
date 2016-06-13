@@ -7,7 +7,8 @@ admini boolean DEFAULT FALSE
 
 Create Table Peli(
 id SERIAL PRIMARY KEY,
-aloitettu DATE
+aloitettu DATE,
+status varchar(50) NOT NULL DEFAULT 'To be continued...'
 );
 
 Create Table KaPe(

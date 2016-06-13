@@ -9,12 +9,10 @@ class HelloWorldController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-        $pelit = Peli::all();
-        $peli = Peli::find(1);
-        $k = Peli::kayttajat(1);
+        $pelit = Peli::validate_status('');
         
-        Kint::dump($k);
-        Kint::dump($peli);
+        
+       
         Kint::dump($pelit);
     }
     

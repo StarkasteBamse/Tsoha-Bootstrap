@@ -2,7 +2,7 @@
 
 class Peli extends BaseModel {
 
-    public $id, $aloitettu, $pelaajat;
+    public $id, $aloitettu, $pelaajat, $status;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -11,45 +11,50 @@ class Peli extends BaseModel {
     //hakee kaikki pelit
     public static function all() {
         $query = DB::connection()->prepare('SELECT nimi as pelaaja, peli.id as id,'
-                . ' aloitettu FROM Peli LEFT JOIN KaPe ON Peli.id = KaPe.peli_id'
+                . ' aloitettu, status FROM Peli LEFT JOIN KaPe ON Peli.id = KaPe.peli_id'
                 . ' LEFT JOIN Kayttaja ON KaPe.kayttaja_id = Kayttaja.id');
         $query->execute();
         $rows = $query->fetchAll();
-        $pelit = array();
 
+        return self::arraymaker($rows);
+    }
+
+    //hakee yhden pelin
+    public static function find($id) {
+        $query = DB::connection()->prepare('SELECT nimi as pelaaja, peli.id as id,'
+                . ' aloitettu, status FROM Peli LEFT JOIN KaPe ON Peli.id = KaPe.peli_id'
+                . ' LEFT JOIN Kayttaja ON KaPe.kayttaja_id = Kayttaja.id'
+                . ' WHERE peli.id = :id');
+        $query->execute(array('id' => $id));
+        $row = $query->fetch();
+
+
+        return self::arraymaker($row);
+    }
+
+    public static function arraymaker($rows) {
+        if (!$rows) {
+            return null;
+        }
+        $pelit = array();
         foreach ($rows as $row) {
             if (!array_key_exists($row['id'], $pelit)) {
                 $pelit[$row['id']] = new Peli(array(
                     'id' => $row['id'],
                     'aloitettu' => $row['aloitettu'],
-                    'pelaajat' => array($row['pelaaja'])
+                    'pelaajat' => array($row['pelaaja']),
+                    'status' => $row['status']
                 ));
             } else {
                 $pelit[$row['id']]->pelaajat[] = $row['pelaaja'];
             }
         }
+
         return $pelit;
     }
 
-    //hakee yhden pelin
-    public static function find($id) {
-        $query = DB::connection()->prepare('SELECT * FROM Peli WHERE id = :id LIMIT 1');
-        $query->execute(array('id' => $id));
-        $row = $query->fetch();
-
-        if ($row) {
-            $peli = new Peli(array(
-                'id' => $row['id'],
-                'aloitettu' => $row['aloitettu'],
-                'pelaajat' => self::kayttajat($row['id'])
-            ));
-            return $peli;
-        }
-        return null;
-    }
-
     //hakee pelin pelaajat
-    public static function kayttajat($id) {
+    public static function players($id) {
         $query = DB::connection()->prepare('SELECT Nimi FROM Peli,'
                 . ' KaPe, Kayttaja WHERE Peli.id = :id AND Peli.id'
                 . ' = Kape.peli_id AND Kape.Kayttaja_id = Kayttaja.id');
@@ -65,7 +70,7 @@ class Peli extends BaseModel {
     }
 
     //tulostaa pelaajat
-    public function ketka() {
+    public function print_players() {
         $i = 1;
         $j = count($this->pelaajat);
         foreach ($this->pelaajat as $value) {
@@ -76,6 +81,7 @@ class Peli extends BaseModel {
             $i++;
         }
     }
+
     //luo uuden pelin tietokantaa ja tarvittavat liitostaulut Peli <-> Kayttaja
     public function save($pelaajat) {
         $query = DB::connection()->prepare('INSERT INTO Peli (aloitettu) VALUES '
@@ -89,6 +95,43 @@ class Peli extends BaseModel {
             $query->execute(array('id' => $id, 'pelaaja' => $pelaaja));
         }
         return $id;
+    }
+    //validoi statuksen
+    public function validate_status($status) {
+        $errors = array();
+        if ($status == '' || $status == null) {
+            $errors[] = 'Status can\'t be empty' ;
+        }
+        if (strlen($status) < 5) {
+            $errors[] = 'Status has to be longer than 5 letters';
+        }
+
+        return $errors;
+    }
+
+    //poistaa pelin tietokannasta
+    public function delete($id) {
+        $query = DB::connection()->prepare('DELETE FROM KaPe WHERE KaPe.Peli_id = :id');
+        $query->execute(array('id' => $id));
+        $query = DB::connection()->prepare('DELETE FROM Peli WHERE Peli.id = :id RETURNING id');
+        $query->execute(array('id' => $id));
+        $row = $query->fetch();
+        if ($row) {
+            return $row['id'];
+        }
+        return null;
+    }
+
+    //vaihtaa pelin statuksen
+    public function update($text, $id) {
+        $query = DB::connection()->prepare('UPDATE Peli SET status=:text WHERE '
+                . 'Peli.id = :id RETURNING id');
+        $query->execute(array('text' => $text, 'id' => $id));
+        $row = $query->fetch();
+        if ($row) {
+            return $row['id'];
+        }
+        return null;
     }
 
 }

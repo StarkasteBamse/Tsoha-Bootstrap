@@ -1,5 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+{% if errors %}
+<div class="alert alert-danger">
+    <ul>
+        {% for error in errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+
+
 <h1>Axis and Allies helpper</h1>
 
 <p>
@@ -19,10 +36,37 @@
     <tbody>
         {% for peli in pelit %}
         <tr>
-            <td>{{peli.ketka}}</td>
+            <td>{{peli.print_players}}</td>
             <td>{{peli.aloitettu}}</td>
-            <td><label class="label label-danger">kesken</label></td>
-            <th><a class="btn btn-default btn-sm" href="{{base_path}}/game/{{peli.id}}">Jatka</a></th>
+            <td>
+                <form method="post" action="{{base_path}}/game/{{peli.id}}/update">
+                    <div class="form-inline">
+
+                        {% if errors and id == peli.id %}                        
+                            {% if status %}
+                            <input type="text" name="status" class="form-control" 
+                                 value="{{status}}">
+                            {% else%}
+                            <input type="text" name="status" class="form-control" 
+                                 value="">
+                            {% endif %}
+                        {% else %}                        
+                        <input type="text" name="status" class="form-control" 
+                               value="{{peli.status}}">
+
+                        {% endif %}       
+                        <button type="submit" class="btn btn-primary btn-sm">Upgrade status</button>
+                    </div>
+                </form>
+
+
+            </td>
+            <td><a class="btn btn-success btn-sm" 
+                   href="{{base_path}}/game/{{peli.id}}">Continue</a>
+                <form method="post" action="{{base_path}}/game/{{peli.id}}/delete"
+                      style="display: inline-block ">
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        Delete</button></form></td>
         </tr>
         {% endfor %}
     </tbody>
