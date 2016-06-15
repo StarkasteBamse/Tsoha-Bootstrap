@@ -3,11 +3,13 @@
 class GameController extends BaseController {
 
     public static function uusi() {
-        $kayttajat = Kayttaja::all();
+        self::check_logged_in();
+        $kayttajat = User::all();
         View::make('game/new.html', array('kayttajat' => $kayttajat));
     }
 
     public static function uusipeli() {
+        self::check_logged_in();
         $pelaajat = $_POST;
         $peli = new Peli(array());
         $id = $peli->save($pelaajat);
@@ -15,16 +17,19 @@ class GameController extends BaseController {
     }
 
     public static function peli($id) {
+        self::check_logged_in();
         $peli = Peli::find($id);       
         View::make('game/play.html', array('peli' => $peli));
     }
 
     public static function index() {
+        self::check_logged_in();
         $pelit = Peli::all_user(self::get_user_logged_in());
         View::make('list/index.html', array('pelit' => $pelit));
     }
     
     public static function delete($id) {
+        self::check_logged_in();
         $return_id = Peli::delete($id);
         Redirect::to('/list', array('message' => 'Game has been removed from database'));
     }

@@ -39,4 +39,30 @@ class User extends BaseModel {
             return null;
         }
     }
+    
+    public static function all() {
+        $query = DB::connection()->prepare('SELECT * FROM Kayttaja');
+        $query->execute();
+        $rows = $query->fetchAll();
+        $kayttajat = array();
+
+        foreach ($rows as $row) {
+            $kayttajat[] = new Kayttaja(array(
+                'id' => $row['id'],
+                'nimi' => $row['nimi'],
+                'salasana' => $row['salasana'],
+                'admini' => $row['admini']
+            ));
+        }
+        return $kayttajat;
+    }
+    
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Kayttaja (nimi, '
+                . 'salasana, admini) VALUES (:nimi, :salasana, :admini) RETURNING ID');
+        $query->execute(array('nimi' => $this->nimi, 'salasana' =>
+            $this->salasana, 'admini' => $this->admini));
+        $row = $query->fetch();
+        $this->id = $row['id'];
+    }
 }
