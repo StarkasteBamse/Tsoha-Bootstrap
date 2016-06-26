@@ -24,14 +24,38 @@ $routes->post('/game/:id/update', function($id) {
     GameController::update_status($id);
 });
 
-$routes->get('/login', function(){
-  UserController::login();
+$routes->get('/login', function() {
+    UserController::login();
 });
-$routes->post('/login', function(){
-  UserController::handle_login();
+$routes->post('/login', function() {
+    UserController::handle_login();
 });
-$routes->post('/logout', function(){
-  UserController::logout();
+$routes->post('/logout', function() {
+    UserController::logout();
+});
+$routes->get('/admin', function() {
+    UserController::users_index();
+});
+$routes->post('/admin/:id/update_name', function($id) {
+    UserController::update_name($id);
+});
+$routes->post('/admin/:id/update_password', function($id) {
+    UserController::update_password($id);
+});
+$routes->post('/admin/:id/update_admin', function($id) {
+    UserController::update_admin($id);
+});
+$routes->post('/admin/:id/delete', function($id) {
+    UserController::delete($id);
+});
+
+
+
+$routes->get('/new', function() {
+    UserController::create_user();
+});
+$routes->post('/new', function() {
+    UserController::new_user();
 });
 
 
@@ -40,20 +64,7 @@ $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
 });
 
-
-
-$routes->get('/login', function() {
-    HelloWorldController::login();
-});
-
 $routes->get('/', function() {
-    HelloWorldController::etusivu();
+    HelloWorldController::homepage();
 });
 
-$routes->get('/listaus', function() {
-    HelloWorldController::listaus();
-});
-
-$routes->get('/listaus/1', function() {
-    HelloWorldController::pelaa();
-});

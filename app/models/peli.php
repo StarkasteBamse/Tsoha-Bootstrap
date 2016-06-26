@@ -12,20 +12,22 @@ class Peli extends BaseModel {
     public static function all() {
         $query = DB::connection()->prepare('SELECT nimi as pelaaja, peli.id as id,'
                 . ' aloitettu, status FROM Peli LEFT JOIN KaPe ON Peli.id = KaPe.peli_id'
-                . ' LEFT JOIN Kayttaja ON KaPe.kayttaja_id = Kayttaja.id');
+                . ' LEFT JOIN Kayttaja ON KaPe.kayttaja_id = Kayttaja.id ORDER BY peli.id ASC');
         $query->execute();
         $rows = $query->fetchAll();
 
         return self::arraymaker($rows);
     }
 
+    //hakee tietyn pelaajan pelit
     public static function all_user($user) {
         $query = DB::connection()->prepare('SELECT nimi as pelaaja, peli.id as id,'
                 . ' aloitettu, status FROM Peli LEFT JOIN KaPe ON Peli.id = KaPe.peli_id'
-                . ' LEFT JOIN Kayttaja ON KaPe.kayttaja_id = Kayttaja.id WHERE Kayttaja.id = :user');
+                . ' LEFT JOIN Kayttaja ON KaPe.kayttaja_id = Kayttaja.id WHERE Kayttaja.id = :user'
+                . ' ORDER BY peli.id ASC');
         $query->execute(array('user' => $user->id));
         $rows = $query->fetchAll();
-        
+
         if (!$rows) {
             return null;
         }
@@ -125,11 +127,12 @@ class Peli extends BaseModel {
         $errors = array();
         if ($status == '' || $status == null) {
             $errors[] = 'Status can\'t be empty';
+        } elseif (strlen($status) < 5) {
+            $errors[] = 'Status minimum lenght is 5 letters';
         }
-        if (strlen($status) < 5) {
-            $errors[] = 'Status has to be longer than 5 letters';
+        if (strlen($status) > 20) {
+            $errors[] = 'Status maximum lenght is 20 letters';
         }
-
         return $errors;
     }
 

@@ -10,14 +10,14 @@ class HelloWorldController extends BaseController {
     public static function sandbox() {
         // Testaa koodiasi täällä
         $pelit = Peli::validate_status('');
+        $users = User::all();
+        User::update_admin(1, 2);
         
-        
-       
-        Kint::dump($pelit);
+        Kint::dump();
     }
     
-    public static function etusivu() {
-        View::make('/suunnitelmat/etusivu.html');
+    public static function homepage() {
+        View::make('/homepage.html');
     }
     
     public static function listaus() {

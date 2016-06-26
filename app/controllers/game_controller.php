@@ -4,8 +4,8 @@ class GameController extends BaseController {
 
     public static function uusi() {
         self::check_logged_in();
-        $kayttajat = User::all();
-        View::make('game/new.html', array('kayttajat' => $kayttajat));
+        $users = User::all();
+        View::make('game/new.html', array('users' => $users));
     }
 
     public static function uusipeli() {
@@ -24,10 +24,13 @@ class GameController extends BaseController {
 
     public static function index() {
         self::check_logged_in();
-        $pelit = Peli::all_user(self::get_user_logged_in());
-        View::make('list/index.html', array('pelit' => $pelit));
+        if (self::check_admin()) {
+            View::make('list/index.html', array('pelit' => Peli::all()));
+        } else {
+            View::make('list/index.html', array('pelit' => Peli::all_user(
+                    self::get_user_logged_in())));            
+        }       
     }
-    
     public static function delete($id) {
         self::check_logged_in();
         $return_id = Peli::delete($id);

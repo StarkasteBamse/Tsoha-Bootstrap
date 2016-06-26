@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
 <h1>Welcome to Axis And Allies helpper</h1>
 <p>this is a simple software, that is designed to assist when playing A&A</p>
 
 <a class="btn btn-default" href="{{base_path}}/login" role="button">Login</a>
-<a class="btn btn-default" href="#" role="button">Create account (doesn't work right now)</a>
+<a class="btn btn-default" href="{{base_path}}/new" role="button">Create account</a>
 {% endblock %}

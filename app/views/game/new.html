@@ -5,13 +5,24 @@
 <p>Select players and press the button</p>
 <form method="post" action="{{base_path}}/game/new">
 
-    {% for kayttaja in kayttajat %}
+    {% for user in users %}
+    {% if user.id == user_logged_in.id %}
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="{{kayttaja.id}}" value="{{kayttaja.id}}">
-            {{kayttaja.nimi}}
+            <input type="checkbox" name="{{user.id}}" value="{{user.id}}"
+                   checked disabled>
+            <input type="hidden" name="{{user.id}}" value="{{user.id}}">
+            {{user.name}}
         </label>
     </div>
+    {% else %}    
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="{{user.id}}" value="{{user.id}}">
+            {{user.name}}
+        </label>
+    </div>
+    {% endif %}
     {% endfor %}
 
 

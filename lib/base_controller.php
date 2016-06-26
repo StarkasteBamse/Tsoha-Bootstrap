@@ -18,5 +18,10 @@ class BaseController {
             Redirect::to('/login', array('message' => 'Naughty naughty! You must be logged in first'));
         }
     }
+    public static function check_admin() {
+        $user_id = $_SESSION['user'];
+        $user = User::find($user_id);
+        return $user->admin;
+    }
 
 }
