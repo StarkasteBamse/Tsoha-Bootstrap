@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-{% if message %}
-<div class="alert alert-success">
-    {{message}}
-</div>
-{% endif %}
+{% import "macros/messages.html" as messages %}
+{{messages.message(message)}}
+
 <h1>Welcome to Axis And Allies helpper</h1>
 <p>this is a simple software, that is designed to assist when playing A&A</p>
 

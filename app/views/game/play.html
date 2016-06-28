@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Pasi and Matti, started 11.11.2001</h1>
+{% import "macros/messages.html" as messages %}
+{{messages.message(message)}}
+{{messages.errors(errors)}}
+<h1>Axis and Allies helpper</h1>
+<h2>Players: <small>{{game.print_players}}</small></h2>
+
 <input type="button" class="btn btn-primary" value="Quit and Save Game">
 <h3>Bank</h3>
 <table class="table table-striped table-bordered table-responsive">
@@ -16,17 +21,22 @@
 
     <tbody>
         <tr>
-            <th>USSR</th>
-            <th>50</th>
-            <th>25 <div class="btn-group">
+
+            <td>USSR</td>
+            <td>50</td>
+            <td><input type="number" name="quantity" min="0" max="200" value="0" class="btn btn-default">
+                <div class="btn-group">
                     <button type="button" class="btn btn-default btn-sm">+</button>
                     <button type="button" class="btn btn-default btn-sm">-</button>
-                </div></th>
-            <th>31 <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm">+</button>
-                    <button type="button" class="btn btn-default btn-sm">-</button>
-                </div></th>
-            <th><a class="btn btn-default btn-sm">Deploy</a></th>
+                </div></td>
+            <td>
+                <input type="number" id="myBtn" name="quantity" min="0" max="200" value="31" class="btn btn-group btn-sm disabled">
+                <div class="btn-group">
+                    <button type="button" onclick="plus()" class="btn btn-default btn-sm">+</button>
+                    <button type="button" onclick="minus()" class="btn btn-default btn-sm">-</button>
+
+                </div></td>
+            <td><a class="btn btn-default btn-sm">Deploy</a></td>
         </tr>
         <tr>
             <th>GERMANY</th>
@@ -91,7 +101,7 @@
             <th>Area</th>
             <th>Control</th>
             <th>Soldiers</th>
-            <th>Artilery</th>
+            <th>Artillery</th>
             <th>Tanks</th>
             <th>Fighters</th>
             <th>Bombers</th>
@@ -155,7 +165,7 @@
             <th>Bombers</th>
             <th>Transporters</th>
             <th>Soldiers</th>
-            <th>Artilery</th>
+            <th>Artillery</th>
             <th>Tanks</th>
         </tr>
     </thead>
@@ -217,4 +227,14 @@
         </tr>
     </tbody>
 </table>
+<script>
+    function plus() {
+
+        document.getElementById("myBtn").stepUp(1);
+    }
+    function minus() {
+
+        document.getElementById("myBtn").stepDown(1);
+    }
+</script>
 {% endblock %}

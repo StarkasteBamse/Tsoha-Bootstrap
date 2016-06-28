@@ -1,56 +1,61 @@
-Create Table Kayttaja(
+Create Table Player(
 id SERIAL PRIMARY KEY,
-nimi varchar(50) NOT NULL,
-salasana varchar(50) NOT NULL,
-admini boolean DEFAULT FALSE
+username varchar(20) NOT NULL,
+password varchar(20) NOT NULL,
+adminstrator boolean DEFAULT FALSE
 );
 
-Create Table Peli(
+Create Table Game(
 id SERIAL PRIMARY KEY,
-aloitettu DATE,
-status varchar(50) NOT NULL DEFAULT 'To be continued...'
+started DATE,
+status varchar(20) NOT NULL DEFAULT 'To be continued...'
 );
 
-Create Table KaPe(
+Create Table PlaGa(
 id SERIAL PRIMARY KEY,
-peli_id INTEGER REFERENCES Peli(id),
-kayttaja_id INTEGER REFERENCES Kayttaja(id)
+game_id INTEGER REFERENCES Game(id),
+player_id INTEGER REFERENCES Player(id)
 );
 
-Create Table Maa(
+Create Table Country(
 id SERIAL PRIMARY KEY,
-peli_id INTEGER REFERENCES Peli(id),
-nimi varchar(50) NOT NULL,
-tulot INTEGER NOT NULL,
-rahat INTEGER NOT NULL
+game_id INTEGER REFERENCES Game(id),
+nation varchar(20) NOT NULL,
+income INTEGER NOT NULL,
+ipc INTEGER NOT NULL
 );
 
-Create Table Maaruutu(
+Create Table Land(
 id SERIAL PRIMARY KEY,
-peli_id INTEGER REFERENCES Peli(id),
-alue varchar(50) NOT NULL UNIQUE,
-kenen varchar(50) NOT NULL,
-sotilaita INTEGER NOT NULL DEFAULT 0,
-tykkeja INTEGER NOT NULL DEFAULT 0,
-tankkeja INTEGER NOT NULL DEFAULT 0,
-havittajia INTEGER NOT NULL DEFAULT 0,
-pommikoneita INTEGER NOT NULL DEFAULT 0,
-tehdas INTEGER NOT NULL CHECK(tehdas = 0 OR tehdas = 1) DEFAULT 0
+game_id INTEGER REFERENCES Game(id),
+country_id INTEGER REFERENCES Country(id),
+area varchar(20) NOT NULL UNIQUE,
+nation varchar(20) NOT NULL DEFAULT 'NEUTRAL',
+soldiers INTEGER NOT NULL DEFAULT 0,
+artillery INTEGER NOT NULL DEFAULT 0,
+tanks INTEGER NOT NULL DEFAULT 0,
+fighters INTEGER NOT NULL DEFAULT 0,
+bombers INTEGER NOT NULL DEFAULT 0,
+antiair INTEGER NOT NULL DEFAULT 0,
+factory INTEGER NOT NULL DEFAULT 0,
+ipc INTEGER NOT NULL DEFAULT 0
 );
 
-Create Table Vesiruutu(
+Create Table Water(
 id SERIAL PRIMARY KEY,
-peli_id INTEGER REFERENCES Peli(id),
-numero INTEGER NOT NULL UNIQUE,
-kenen varchar(50) NOT NULL,
-destryoereita INTEGER NOT NULL DEFAULT 0,
-sukellusveneita INTEGER NOT NULL DEFAULT 0,
-transporttereita INTEGER NOT NULL DEFAULT 0,
-carriereita INTEGER NOT NULL DEFAULT 0,
-battleshippeja INTEGER NOT NULL DEFAULT 0,
-sotilaita INTEGER NOT NULL DEFAULT 0,
-tykkeja INTEGER NOT NULL DEFAULT 0,
-tankkeja INTEGER NOT NULL DEFAULT 0,
-havittajia INTEGER NOT NULL DEFAULT 0,
-pommikoneita INTEGER NOT NULL DEFAULT 0
+game_id INTEGER REFERENCES Game(id),
+country_id INTEGER REFERENCES Country(id),
+area INTEGER NOT NULL UNIQUE,
+destroyers INTEGER NOT NULL DEFAULT 0,
+submarines INTEGER NOT NULL DEFAULT 0,
+transporters INTEGER NOT NULL DEFAULT 0,
+carriers INTEGER NOT NULL DEFAULT 0,
+battleships INTEGER NOT NULL DEFAULT 0,
+soldiers INTEGER NOT NULL DEFAULT 0,
+artillery INTEGER NOT NULL DEFAULT 0,
+tanks INTEGER NOT NULL DEFAULT 0,
+fighters INTEGER NOT NULL DEFAULT 0,
+bombers INTEGER NOT NULL DEFAULT 0,
+antiair INTEGER NOT NULL DEFAULT 0
 );
+
