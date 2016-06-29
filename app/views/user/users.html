@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+{% import "macros/messages.html" as messages %}
+{{messages.message(message)}}
+{{messages.errors(errors)}}
+
+
+
+<h1>Axis and Allies helpper</h1>
+
+
+<h2>Users</h2>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Password</th>
+            <th>Admin</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>
+                <form method="post" action="{{base_path}}/admin/{{user.id}}/update_name">
+                    <div class="form-inline">
+                        <input type="text" name="username" class="form-control" 
+                               value="{{user.name}}">
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Change Name</button>
+                    </div>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="{{base_path}}/admin/{{user.id}}/update_password">
+                    <div class="form-inline">
+                        <input type="text" name="password" class="form-control" 
+                               value="{{user.password}}">
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Change Password</button>
+                    </div>
+                </form>
+            </td>
+            <td>
+                {% if user.id == user_logged_in.id%}
+                <form method="post" action="{{base_path}}/admin/{{user.id}}/update_admin">
+                    <div class="checkbox-inline">
+                        <input type="checkbox" name="admin" value="{{user.id}}" 
+                               checked disabled> 
+                        <button type="submit" class="btn btn-primary btn-sm disabled">
+                            Change Admin</button>
+                </form>
+                {% elseif user.admin %}
+                <form method="post" action="{{base_path}}/admin/{{user.id}}/update_admin">
+                    <div class="checkbox-inline">
+                        <input type="checkbox" name="admin" value="{{user.id}}" checked> 
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Change Admin</button>
+                </form>
+                {% else %}
+                <form method="post" action="{{base_path}}/admin/{{user.id}}/update_admin">
+                    <div class="checkbox-inline">
+                        <input type="checkbox" name="admin" value="{{user.id}}"> 
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Change Admin</button>
+                </form>
+                {% endif %}
+            </td>
+            <td>
+                <form method="post" action="{{base_path}}/admin/{{user.id}}/delete">
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        Delete User</button>
+                </form>
+            </td>
+
+
+
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endblock %}
