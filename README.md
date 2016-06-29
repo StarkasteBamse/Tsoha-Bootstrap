@@ -3,10 +3,9 @@
 Yleisiä linkkejä:
 
 * [Linkki sovellukseeni](http://sulevi.users.cs.helsinki.fi/AA/)
-* (Käyttäjätunnus:matti salasana:matti123, normaali testi tili)
-* (Käyttäjätunnus:teppo salasana:teppo123, testi tili jolla on admin oikeudet)
+Käyttäjätunnus:matti salasana:matti123, normaali testi tili. Käyttäjätunnus:teppo salasana:teppo123, testi tili jolla on admin oikeudet.
 
-* [Linkki dokumentaatiooni](https://github.com/StarkasteBamse/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
+* [Linkki dokumentaatiooni](https://github.com/StarkasteBamse/Tsoha-Bootstrap/blob/master/doc/dokumentaatio .pdf)
 
 ## Työn aihe
 
