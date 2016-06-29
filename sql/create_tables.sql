@@ -1,6 +1,6 @@
 Create Table Player(
 id SERIAL PRIMARY KEY,
-username varchar(20) NOT NULL,
+username varchar(20) NOT NULL UNIQUE,
 password varchar(20) NOT NULL,
 adminstrator boolean DEFAULT FALSE
 );
@@ -29,7 +29,7 @@ Create Table Land(
 id SERIAL PRIMARY KEY,
 game_id INTEGER REFERENCES Game(id),
 country_id INTEGER REFERENCES Country(id),
-area varchar(20) NOT NULL UNIQUE,
+area varchar(20) NOT NULL,
 nation varchar(20) NOT NULL DEFAULT 'NEUTRAL',
 soldiers INTEGER NOT NULL DEFAULT 0,
 artillery INTEGER NOT NULL DEFAULT 0,
@@ -45,7 +45,7 @@ Create Table Water(
 id SERIAL PRIMARY KEY,
 game_id INTEGER REFERENCES Game(id),
 country_id INTEGER REFERENCES Country(id),
-area INTEGER NOT NULL UNIQUE,
+area INTEGER NOT NULL,
 destroyers INTEGER NOT NULL DEFAULT 0,
 submarines INTEGER NOT NULL DEFAULT 0,
 transporters INTEGER NOT NULL DEFAULT 0,

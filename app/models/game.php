@@ -11,7 +11,8 @@ class Game extends BaseModel {
     //hakee kaikki pelit
     public static function all() {
         $query = DB::connection()->prepare('
-            SELECT username as player, game.id as id, started, status 
+            SELECT username, player.id as player_id, game.id as id, 
+            started, status 
             FROM Game 
             LEFT JOIN PlaGa 
             ON Game.id = PlaGa.game_id
@@ -41,7 +42,7 @@ class Game extends BaseModel {
             AND player.id = '. $user->id);
         $query->execute();
         $query = DB::connection()->prepare('
-            SELECT view.id as id, started, username as player, status 
+            SELECT view.id as id, started, username, player.id as player_id, status 
             FROM game 
             LEFT JOIN PlaGa 
             ON game.id = plaga.game_id 
@@ -91,11 +92,17 @@ class Game extends BaseModel {
                 $games[$row['id']] = new Game(array(
                     'id' => $row['id'],
                     'started' => $row['started'],
-                    'players' => array($row['player']),
+                    'players' => array(new User(array(
+                        'id' => $row['player_id'],
+                        'name' => $row['username']
+                    ))),
                     'status' => $row['status']
                 ));
             } else {
-                $games[$row['id']]->players[] = $row['player'];
+                $games[$row['id']]->players[] = new User(array(
+                        'id' => $row['player_id'],
+                        'name' => $row['username']
+                    ));
             }
         }
 
@@ -105,9 +112,9 @@ class Game extends BaseModel {
     //hakee pelin pelaajat
     public static function players($id) {
         $query = DB::connection()->prepare('
-                SELECT username 
+                SELECT username, player.id as id
                 FROM Game, PlaGa, Player 
-                WHERE Game.id = :id 
+                WHERE Game.id = :id
                 AND Game.id = Plaga.game_id 
                 AND PlaGa.player_id = Player.id');
         $query->execute(array('id' => $id));
@@ -115,7 +122,9 @@ class Game extends BaseModel {
         $players = array();
 
         foreach ($rows as $row) {
-            array_push($players, $row['username']);
+            $players[] = new User(array(
+                'id' => $row['id'],
+                'name' => $row['username']));
         }
 
         return $players;
@@ -125,17 +134,26 @@ class Game extends BaseModel {
     public function print_players() {
         $i = 1;
         $j = count($this->players);
-        foreach ($this->players as $value) {
-            echo $value;
+        foreach ($this->players as $player) {
+            echo $player->name;
             if ($i < $j) {
                 echo ' and ';
             }
             $i++;
         }
     }
+    
+    //lähettää pelaajien id:t
+    public function players_ids() {        
+        $ids = array();
+        foreach ($this->players as $player) {
+            $ids[] = $player->id;
+        }
+        return $ids;
+    }
 
     //luo uuden pelin tietokantaa ja tarvittavat liitostaulut Peli <-> Kayttaja
-    public function save($players) {
+    public function save() {
         $query = DB::connection()->prepare('
                 INSERT INTO Game (Started) 
                 VALUES (NOW()) 
@@ -143,42 +161,45 @@ class Game extends BaseModel {
         $query->execute();
         $row = $query->fetch();
         $id = $row['id'];
-        foreach ($players as $player) {
+        foreach ($this->players as $player) {
             $query = DB::connection()->prepare('
                 INSERT INTO PlaGa (Game_id, Player_id) 
                 VALUES (:id, :player)');
             $query->execute(array(
                 'id' => $id, 
-                'player' => $player));
+                'player' => $player->id));
         }
         return $id;
     }
 
     //validoi statuksen
-    public function validate_status($status) {
+    public function validate_status() {
         $errors = array();
-        if ($status == '' || $status == null) {
+        if ($this->status == '' || $this->status == null) {
             $errors[] = 'Status can\'t be empty';
-        } elseif (strlen($status) < 5) {
+        } elseif (strlen($this->status) < 5) {
             $errors[] = 'Status minimum lenght is 5 letters';
         }
-        if (strlen($status) > 20) {
+        if (strlen($this->status) > 20) {
             $errors[] = 'Status maximum lenght is 20 letters';
         }
         return $errors;
     }
 
     //poistaa pelin tietokannasta
-    public function delete($id) {
+    public function delete() {
+        Water::delete($this->id);
+        Land::delete($this->id);
+        Country::delete($this->id);
         $query = DB::connection()->prepare('
                 DELETE FROM PlaGa 
                 WHERE PlaGa.Game_id = :id');
-        $query->execute(array('id' => $id));
+        $query->execute(array('id' => $this->id));
         $query = DB::connection()->prepare('
                 DELETE FROM Game 
                 WHERE Game.id = :id 
                 RETURNING id');
-        $query->execute(array('id' => $id));
+        $query->execute(array('id' => $this->id));
         $row = $query->fetch();
         if ($row) {
             return $row['id'];
@@ -187,15 +208,15 @@ class Game extends BaseModel {
     }
 
     //vaihtaa pelin statuksen
-    public function update($text, $id) {
+    public function update() {
         $query = DB::connection()->prepare('
                 UPDATE Game 
                 SET status=:text 
                 WHERE Game.id = :id 
                 RETURNING id');
         $query->execute(array(
-            'text' => $text, 
-            'id' => $id));
+            'text' => $this->status, 
+            'id' => $this->id));
         $row = $query->fetch();
         if ($row) {
             return $row['id'];

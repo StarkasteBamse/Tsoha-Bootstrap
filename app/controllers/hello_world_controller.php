@@ -9,7 +9,7 @@ class HelloWorldController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-        $pelit = Game::validate_status('');
+        
         $users = User::all();
         $games = Game::all();
         $game = Game::find(1);

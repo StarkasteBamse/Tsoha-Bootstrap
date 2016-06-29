@@ -1,7 +1,7 @@
 <?php
 
 $routes->post('/game/new', function() {
-    GameController::uusipeli();
+    GameController::make_game();
 });
 
 $routes->get('/list', function() {
@@ -9,11 +9,11 @@ $routes->get('/list', function() {
 });
 
 $routes->get('/game/new', function() {
-    GameController::uusi();
+    GameController::new_game();
 });
 
 $routes->get('/game/:id', function($id) {
-    GameController::peli($id);
+    GameController::play_game($id);
 });
 
 $routes->post('/game/:id/delete', function($id) {
@@ -23,6 +23,19 @@ $routes->post('/game/:id/delete', function($id) {
 $routes->post('/game/:id/update', function($id) {
     GameController::update_status($id);
 });
+
+$routes->post('/game/buys/:id', function($id) {
+    GameController::ipc_update($id);
+});
+
+$routes->post('/game/land/:id/update', function($id) {
+    GameController::land_update($id);
+});
+
+$routes->post('/game/water/:id/update', function($id) {
+    GameController::water_update($id);
+});
+
 
 $routes->get('/login', function() {
     UserController::login();
