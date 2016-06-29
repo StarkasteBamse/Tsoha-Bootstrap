@@ -62,8 +62,6 @@ $routes->post('/admin/:id/delete', function($id) {
     UserController::delete($id);
 });
 
-
-
 $routes->get('/new', function() {
     UserController::create_user();
 });
@@ -71,13 +69,14 @@ $routes->post('/new', function() {
     UserController::new_user();
 });
 
+$routes->get('/', function() {
+    UserController::homepage();
+});
 
 
 $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
 });
 
-$routes->get('/', function() {
-    HelloWorldController::homepage();
-});
+
 

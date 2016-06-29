@@ -84,6 +84,7 @@ class Country extends BaseModel {
         return null;
     }
     
+    //päivittää incomin, hakemalla maaruutujen arvot
     public function update_income() {
         $query = DB::connection()->prepare('
             SELECT SUM(land.ipc) AS ipc_income

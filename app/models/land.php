@@ -3,7 +3,7 @@
 class Land extends BaseModel {
 
     public $id, $game_id, $area, $nation, $soldiers, $artillery, $tanks,
-            $fighters, $bombers, $antiair, $factory, $ipc, $control, $country_id;
+            $fighters, $bombers, $antiair, $factory, $ipc, $control;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -51,7 +51,7 @@ class Land extends BaseModel {
         return $lands;        
     }
 
-    //hakee yhden ruudun
+    //hakee yhden maaruudun
     public static function find($id) {
         $query = DB::connection()->prepare('
             SELECT land.id AS id, land.game_id as game_id, area, land.nation AS 
@@ -65,7 +65,7 @@ class Land extends BaseModel {
         return self::arraymaker($rows);
     }
 
-    //hakee tietyn pelin kaikki alkujaan ussr:n ruudut
+    //hakee tietyn pelin kaikki alkujaan ussr:n maaruudut
     public static function ussr($game_id) {
         $query = DB::connection()->prepare('
             SELECT land.id AS id, land.game_id as game_id, area, land.nation AS 
@@ -80,7 +80,7 @@ class Land extends BaseModel {
         return self::arraymaker($rows);
     }
 
-    //hakee tietyn pelin kaikki alkujaan germany:n ruudut
+    //hakee tietyn pelin kaikki alkujaan germany:n maaruudut
     public static function germany($game_id) {
         $query = DB::connection()->prepare('
             SELECT land.id AS id, land.game_id as game_id, area, land.nation AS
@@ -95,7 +95,7 @@ class Land extends BaseModel {
         return self::arraymaker($rows);
     }
 
-    //hakee tietyn pelin kaikki alkujaan uk:n ruudut
+    //hakee tietyn pelin kaikki alkujaan uk:n maaruudut
     public static function uk($game_id) {
         $query = DB::connection()->prepare('
             SELECT land.id AS id, land.game_id as game_id, area, land.nation AS 
@@ -110,7 +110,7 @@ class Land extends BaseModel {
         return self::arraymaker($rows);
     }
 
-    //hakee tietyn pelin kaikki alkujaan japan:in ruudut
+    //hakee tietyn pelin kaikki alkujaan japan:in maaruudut
     public static function japan($game_id) {
         $query = DB::connection()->prepare('
             SELECT land.id AS id, land.game_id as game_id, area, land.nation AS 
@@ -125,7 +125,7 @@ class Land extends BaseModel {
         return self::arraymaker($rows);
     }
 
-    //hakee tietyn pelin kaikki alkujaan usa:n ruudut
+    //hakee tietyn pelin kaikki alkujaan usa:n maaruudut
     Public static function usa($game_id) {
         $query = DB::connection()->prepare('
             SELECT land.id AS id, land.game_id as game_id, area, land.nation AS 
@@ -140,7 +140,7 @@ class Land extends BaseModel {
         return self::arraymaker($rows);
     }
 
-    //hakee tietyn pelin kaikki alkujaan neutral:in ruudut
+    //hakee tietyn pelin kaikki alkujaan neutral:in maaruudut
     public static function neutral($game_id) {
         $query = DB::connection()->prepare('
             SELECT land.id AS id, land.game_id as game_id, area, land.nation AS 
@@ -155,7 +155,7 @@ class Land extends BaseModel {
         return self::arraymaker($rows);
     }
 
-    //tallentaa ruudun tietokantaan
+    //tallentaa maaruudun tietokantaan
     public function save($country_id) {
         $query = DB::connection()->prepare('
             INSERT INTO Land (game_id, area,  nation, soldiers, artillery, 
@@ -184,7 +184,7 @@ class Land extends BaseModel {
         return false;
     }
 
-    //päivittää ruudun statukset
+    //päivittää maaruudun statukset
     public function update($id, $country_id) {
         $query = DB::connection()->prepare('
             UPDATE Land 
@@ -210,7 +210,7 @@ class Land extends BaseModel {
         return null;
     }
 
-    //päivittää ruudun haltijan (vieras avain)
+    //päivittää maaruudun haltijan (vieras avain)-> country
     public function updateControl($country_id) {
         $query = DB::connection()->prepare('
                 UPDATE Land 
@@ -227,7 +227,7 @@ class Land extends BaseModel {
         return null;
     }
 
-    //poistaa ruudun
+    //poistaa maaruudut pelistä
     public static function delete($game_id) {
         $query = DB::connection()->prepare('
                 DELETE FROM Land 

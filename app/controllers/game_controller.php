@@ -1,13 +1,14 @@
 <?php
 
 class GameController extends BaseController {
-
+    
+    //aukasee sivun jossa valitaan pelaajat uuteen peliin
     public static function new_game() {
         self::check_logged_in();
         $users = User::all();
         View::make('game/new.html', array('users' => $users));
     }
-
+    //tekee uuden pelin, tällä hetkellä automaattisesti A&A revised version pohjalta
     public static function make_game() {
         self::check_logged_in();
         $players = array();
@@ -19,7 +20,7 @@ class GameController extends BaseController {
         AaRevised::make_game($id);
         Redirect::to('/game/' . $id);
     }
-
+    //itse pelin pelaaminen/tilanteen päivittäminen
     public static function play_game($id) {
         self::check_logged_in();
         $game = Game::find($id);
@@ -39,7 +40,7 @@ class GameController extends BaseController {
                 yours, thank you.'));
         }
     }
-
+    //listaus näkymä kaikista peleistä, adminit näkevät kaikki pelit, muut vain missä ovat osallisina
     public static function index() {
         self::check_logged_in();
         if (self::check_admin()) {
@@ -49,7 +50,8 @@ class GameController extends BaseController {
                 'games' => Game::all_user(self::get_user_logged_in())));
         }
     }
-
+    
+    //pelin poistaminen tietokannasta, tarkistaa että on oikeudet poistaa peli
     public static function delete($id) {
         self::check_logged_in();
         $game = Game::find($id);
@@ -68,7 +70,8 @@ class GameController extends BaseController {
                 yours, thank you.'));
         }
     }
-
+    
+    //pelin statuksen päivittäminen
     public static function update_status($id) {
         self::check_logged_in();
         $status = $_POST['status'];
@@ -97,7 +100,8 @@ class GameController extends BaseController {
                 yours, thank you.'));
         }
     }
-
+    
+    //pelissä tietyn maan ipc(raha) tilanteen päivittäminen
     public static function ipc_update($id) {
         self::check_logged_in();
         $params = $_POST;
@@ -110,7 +114,8 @@ class GameController extends BaseController {
         $country->update($id);
         Redirect::to('/game/' . $game_id, (array('message' => 'Troops deployed!')));
     }
-
+    
+    //pelissä maaruudun tilanteen päivittäminen
     public static function land_update($id) {
         self::check_logged_in();
         $params = $_POST;
@@ -133,6 +138,7 @@ class GameController extends BaseController {
         }
     }
 
+    //pelissä vesiruudun tilanteen päivittäminen
     public static function water_update($id) {
         self::check_logged_in();
         $params = $_POST;

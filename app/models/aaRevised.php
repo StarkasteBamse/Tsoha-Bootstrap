@@ -3,7 +3,10 @@
 class AaRevised {
 
     public $game_id;
-
+    
+    //axis and allies revised version mukainen alkuasetelma, nytten turhan kömpelö
+    //ja aukaisee useasti DB yhteyden -> refaktorointi tiedostoksi minkä saa suoraan
+    //ladattua tietokantaan
     public static function make_game($game_id) {
         //ussr ja sen maat
         $USSR = new Country(array(

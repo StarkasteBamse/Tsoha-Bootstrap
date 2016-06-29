@@ -1,16 +1,17 @@
 <?php
 
 class Water extends BaseModel {
-    
-    public $id, $game_id, $area, $soldiers, $artillery, $tanks, 
-            $fighters ,$bombers, $antiair, $destroyers, $submarines, 
+
+    public $id, $game_id, $area, $soldiers, $artillery, $tanks,
+            $fighters, $bombers, $antiair, $destroyers, $submarines,
             $transporters, $carriers, $battleships, $control;
-    
+
     public function __construct($attributes) {
         parent::__construct($attributes);
     }
-    
-    public static function all($game_id){
+
+    //hakee kaikki pelin vesiruudut
+    public static function all($game_id) {
         $query = DB::connection()->prepare('
             SELECT water.id AS id, water.game_id as game_id, area, soldiers, 
             artillery, tanks, destroyers, submarines, fighters, bombers, antiair,
@@ -24,8 +25,9 @@ class Water extends BaseModel {
 
         return self::arraymaker($rows);
     }
-    
-    public static function find($id){
+
+    //hakee yhden vesiruudun id:llä
+    public static function find($id) {
         $query = DB::connection()->prepare('
             SELECT water.id AS id, water.game_id as game_id, area, soldiers, 
             artillery, tanks, destroyers, submarines, fighters, bombers, antiair, 
@@ -38,8 +40,9 @@ class Water extends BaseModel {
 
         return self::arraymaker($rows);
     }
-    
-    public function save($country_id){
+
+    //tallentaa vesiruudun tietokantaan
+    public function save($country_id) {
         $query = DB::connection()->prepare('
             INSERT INTO Water (game_id, area, soldiers, artillery, tanks, 
             fighters , bombers, antiair, destroyers, submarines, transporters, 
@@ -49,10 +52,10 @@ class Water extends BaseModel {
             :transporters, :carriers, :battleships, :country_id) 
             RETURNING id');
         $query->execute(array('game_id' => $this->game_id, 'area' =>
-            $this->area, 'soldiers' => 
-            $this->soldiers, 'artillery' => $this->artillery, 'tanks' => 
-            $this->tanks, 'fighters' => $this->fighters, 'bombers' => 
-            $this->bombers, 'antiair' => $this->antiair, 'destroyers' => 
+            $this->area, 'soldiers' =>
+            $this->soldiers, 'artillery' => $this->artillery, 'tanks' =>
+            $this->tanks, 'fighters' => $this->fighters, 'bombers' =>
+            $this->bombers, 'antiair' => $this->antiair, 'destroyers' =>
             $this->destroyers, 'submarines' => $this->submarines, 'transporters'
             => $this->transporters, 'carriers' => $this->carriers, 'battleships'
             => $this->battleships, 'country_id' => $country_id));
@@ -62,8 +65,9 @@ class Water extends BaseModel {
         }
         return false;
     }
-    
-    public function update($id, $country_id){
+
+    //päivittää vesiruudun tiedot
+    public function update($id, $country_id) {
         $query = DB::connection()->prepare('
             UPDATE Water 
             SET soldiers = :soldiers, artillery = :artillery, 
@@ -74,11 +78,11 @@ class Water extends BaseModel {
             country_id = :country_id
             WHERE id = :id 
             RETURNING id');
-        $query->execute(array('soldiers' => $this->soldiers, 'artillery' => 
-            $this->artillery, 'tanks' => $this->tanks, 'fighters' => 
-            $this->fighters, 'bombers' => $this->bombers, 'antiair' => 
-            $this->antiair, 'destroyers' =>  $this->destroyers, 'submarines' => 
-            $this->submarines, 'transporters' => $this->transporters, 'carriers'=> 
+        $query->execute(array('soldiers' => $this->soldiers, 'artillery' =>
+            $this->artillery, 'tanks' => $this->tanks, 'fighters' =>
+            $this->fighters, 'bombers' => $this->bombers, 'antiair' =>
+            $this->antiair, 'destroyers' => $this->destroyers, 'submarines' =>
+            $this->submarines, 'transporters' => $this->transporters, 'carriers' =>
             $this->carriers, 'battleships' => $this->battleships, 'id' => $id,
             'country_id' => $country_id));
         $row = $query->fetch();
@@ -88,7 +92,8 @@ class Water extends BaseModel {
         return null;
     }
     
-     public function updateControl($country_id) {
+    //päivittää vesiruudun foreign key:n -> country
+    public function updateControl($country_id) {
         $query = DB::connection()->prepare('
                 UPDATE Water 
                 SET country_id = :country_id
@@ -101,8 +106,9 @@ class Water extends BaseModel {
         }
         return null;
     }
-    
-    public static function delete($game_id){
+
+    //poistaa pelistä vesiruudut
+    public static function delete($game_id) {
         $query = DB::connection()->prepare('
                 DELETE FROM Water
                 WHERE game_id = :id
@@ -114,8 +120,9 @@ class Water extends BaseModel {
         }
         return null;
     }
-    
-     private static function arraymaker($rows) {
+
+    //rakentaa arrayn haetuista tiedoista
+    private static function arraymaker($rows) {
         if (!$rows) {
             return null;
         }
@@ -139,7 +146,8 @@ class Water extends BaseModel {
                 'control' => $row['control'],
                 'battleships' => $row['battleships']));
         }
-      
+
         return $waters;
     }
+
 }

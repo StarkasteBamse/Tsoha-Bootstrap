@@ -1,11 +1,15 @@
 <?php
 
 class UserController extends BaseController {
-
+    //etusivu näkymä
+    public static function homepage() {
+        View::make('/homepage.html');
+    }
+    //kirjautumis näkymä
     public static function login() {
         View::make('user/login.html');
     }
-
+    //sisäänkirjautumisen hoitaminen
     public static function handle_login() {
         $params = $_POST;
 
@@ -22,17 +26,17 @@ class UserController extends BaseController {
                 'message' => 'Welcome back to the fight '. $user->name . '!'));
         }
     }
-
+    //uloskirjautumisen hoitaminen
     public static function logout() {
         $_SESSION['user'] = null;
         Redirect::to('/', array(
             'message' => 'You have just logged out. Have a nice day!'));
     }
-
+    //uuden käyttäjän näkymä
     public static function create_user() {
         View::make('user/create_user.html');
     }
-
+    //uuden käyttäjän luominen
     public static function new_user() {
         $params = $_POST;
         $user = new User(array(
@@ -57,7 +61,7 @@ class UserController extends BaseController {
                 . $user->name . '!'));
         }
     }
-
+    //admineille näkymä kaikista käyttäjistä
     public static function users_index() {
         self::check_logged_in();
         if (self::check_admin()) {
@@ -67,7 +71,7 @@ class UserController extends BaseController {
                 'errors' => array('Sorry, you ain\'t no admin')));
         }
     }
-
+    //käyttäjän poistaminen tietokannasta
     public static function delete($id) {
         self::check_logged_in();
         if (!self::check_admin()) {
@@ -79,7 +83,7 @@ class UserController extends BaseController {
                 'message' => 'User has been removed from this plane of existence'));
         }
     }
-
+    //käyttäjän nimen päivittäminen
     public static function update_name($id) {
 
         self::check_logged_in();
@@ -98,7 +102,7 @@ class UserController extends BaseController {
                 'message' => 'Username has been changed'));
         }
     }
-
+    //käyttäjän salasanan päivittäminen
     public static function update_password($id) {
         self::check_logged_in();
         if (!self::check_admin()) {
@@ -116,7 +120,7 @@ class UserController extends BaseController {
                 'message' => 'Password has been changed'));
         }
     }
-
+    //käyttäjän admin statuksen päivittäminen
     public static function update_admin($id) {
         self::check_logged_in();
         if (self::check_admin()) {
